@@ -182,7 +182,7 @@ def main():
             pygame.time.delay(5000)
             main()
 
-        draw_bombs(bombs, False)
+        # draw_bombs(bombs, False)
         pygame.display.update()
     
     pygame.quit()
