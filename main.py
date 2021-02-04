@@ -1,6 +1,6 @@
 import pygame
 from Constants.constants import WIDTH, HEIGHT, BLACK, WHITE, DARK_GREY, SQUARE_SIZE, FPS, TEXT_FONT, QTD_BOMBS
-from Assets.images import BOMB_ICON, BOMB, FLAG, EMPTY, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, numbers_dict
+from Assets.images import BOMB_ICON, BOMB, FLAG, EMPTY, numbers_dict
 from random import randint
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -79,16 +79,11 @@ def create_bombs():
     return bombs, no_bombs
 
 
-def draw_bombs(bombs, draw_as_flag):
+def draw_bombs(bombs, image):
     for bomb in bombs:
-        if draw_as_flag:
-            black_square = pygame.Rect(bomb[0] * SQUARE_SIZE + 2, bomb[1] * SQUARE_SIZE + 2, SQUARE_SIZE - 3, SQUARE_SIZE - 3)
-            pygame.draw.rect(WIN, BLACK, black_square)
-            WIN.blit(FLAG, (bomb[0] * SQUARE_SIZE + 3, bomb[1] * SQUARE_SIZE + 3))
-        else:
-            black_square = pygame.Rect(bomb[0] * SQUARE_SIZE + 2, bomb[1] * SQUARE_SIZE + 2, SQUARE_SIZE - 3, SQUARE_SIZE - 3)
-            pygame.draw.rect(WIN, BLACK, black_square)
-            WIN.blit(BOMB, (bomb[0] * SQUARE_SIZE + 3, bomb[1] * SQUARE_SIZE + 3))
+        black_square = pygame.Rect(bomb[0] * SQUARE_SIZE + 2, bomb[1] * SQUARE_SIZE + 2, SQUARE_SIZE - 3, SQUARE_SIZE - 3)
+        pygame.draw.rect(WIN, BLACK, black_square)
+        WIN.blit(image, (bomb[0] * SQUARE_SIZE + 3, bomb[1] * SQUARE_SIZE + 3))
 
 
 def draw_number(mouse_x, mouse_y, num_bombs):
@@ -143,7 +138,7 @@ def main():
                     pressed.append((mouse_x, mouse_y))
 
                     if is_bomb(mouse_x, mouse_y, bombs):
-                        draw_bombs(bombs, False)
+                        draw_bombs(bombs, BOMB)
                         print_text('YOU LOSE!')
                         pygame.display.update()
                         pygame.time.delay(3000)
@@ -172,13 +167,13 @@ def main():
                         pygame.draw.rect(WIN, BLACK, black_square)
 
         if len(not_bomb) == len(no_bombs):
-            draw_bombs(bombs, True)
+            draw_bombs(bombs, FLAG)
             print_text('YOU WIN!')
             pygame.display.update()
             pygame.time.delay(3000)
             main()
 
-        # draw_bombs(bombs, False)
+        # draw_bombs(bombs, BOMB)
         pygame.display.update()
     
     pygame.quit()
