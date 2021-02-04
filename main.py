@@ -1,15 +1,11 @@
 import pygame
-from Constants.constants import WIDTH, HEIGHT, BLACK, WHITE, DARK_GREY, SQUARE_SIZE, FPS
+from Constants.constants import WIDTH, HEIGHT, BLACK, WHITE, DARK_GREY, SQUARE_SIZE, FPS, TEXT_FONT, QTD_BOMBS
 from Assets.images import BOMB_ICON, BOMB, FLAG, EMPTY, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, numbers_dict
 from random import randint
-pygame.font.init()
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Campo Minado")
 pygame.display.set_icon(BOMB_ICON)
-
-TEXT_FONT = pygame.font.SysFont('calibri', 150)
-
 
 def make_table():
     WIN.fill(BLACK)
@@ -67,7 +63,7 @@ def create_bombs():
     bombs.clear()
     col = randint(0, 19)
     row = randint(0, 19)
-    for _ in range(0, 80):
+    for _ in range(0, QTD_BOMBS):
         while (col, row) in bombs:
             col = randint(0, 19)
             row = randint(0, 19)
@@ -150,7 +146,7 @@ def main():
                         draw_bombs(bombs, False)
                         print_text('YOU LOSE!')
                         pygame.display.update()
-                        pygame.time.delay(5000)
+                        pygame.time.delay(3000)
                         main()
                     else:
                         num_bombs = check_bombs(mouse_x, mouse_y, bombs)
@@ -179,7 +175,7 @@ def main():
             draw_bombs(bombs, True)
             print_text('YOU WIN!')
             pygame.display.update()
-            pygame.time.delay(5000)
+            pygame.time.delay(3000)
             main()
 
         # draw_bombs(bombs, False)
