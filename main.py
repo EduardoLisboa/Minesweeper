@@ -152,6 +152,7 @@ def main():
                         else: # EMPTY SPACE
                             check_empty_spaces(mouse_x, mouse_y, bombs, empty_spaces, visited, not_bomb)
                             draw_empty_spaces(empty_spaces)
+                            pressed.extend(empty_spaces[:])
                             empty_spaces.clear()
                 if button == (0, 0, 1):
                     if (mouse_x, mouse_y) not in pressed:
@@ -173,7 +174,7 @@ def main():
             pygame.time.delay(3000)
             main()
 
-        # draw_bombs(bombs, BOMB)
+        draw_bombs(bombs, BOMB)
         pygame.display.update()
     
     pygame.quit()
