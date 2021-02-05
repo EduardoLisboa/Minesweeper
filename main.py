@@ -4,7 +4,7 @@ from Assets.images import BOMB_ICON, BOMB, FLAG, EMPTY, numbers_dict
 from random import randint
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT + 50))
-pygame.display.set_caption("Campo Minado")
+pygame.display.set_caption("Minesweeper")
 pygame.display.set_icon(BOMB_ICON)
 
 def make_table():
