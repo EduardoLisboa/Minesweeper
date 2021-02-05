@@ -1,15 +1,15 @@
 import pygame
-from Constants.constants import WIDTH, HEIGHT, BLACK, WHITE, DARK_GREY, SQUARE_SIZE, FPS, TEXT_FONT, QTD_BOMBS
+from Constants.constants import BOMB_QTD_FONT, WIDTH, HEIGHT, BLACK, WHITE, DARK_GREY, SQUARE_SIZE, FPS, TEXT_FONT, QTD_BOMBS
 from Assets.images import BOMB_ICON, BOMB, FLAG, EMPTY, numbers_dict
 from random import randint
 
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+WIN = pygame.display.set_mode((WIDTH, HEIGHT + 50))
 pygame.display.set_caption("Campo Minado")
 pygame.display.set_icon(BOMB_ICON)
 
 def make_table():
     WIN.fill(BLACK)
-    for i in range(SQUARE_SIZE, WIDTH, SQUARE_SIZE):
+    for i in range(SQUARE_SIZE, WIDTH + SQUARE_SIZE, SQUARE_SIZE):
         vertical = pygame.Rect(i, 0, 2, HEIGHT)
         horizontal = pygame.Rect(0, i, WIDTH, 2)
         pygame.draw.rect(WIN, DARK_GREY, vertical)
@@ -36,7 +36,7 @@ def check_bombs(mouse_x, mouse_y, bombs):
 
 
 def check_empty_spaces(mouse_x, mouse_y, bombs, empty_spaces, visited, not_bomb):
-    if (mouse_x, mouse_y) in visited:
+    if (mouse_x, mouse_y) in visited or mouse_x < 0 or mouse_x > 19 or mouse_y < 0 or mouse_y > 19:
         return
     num_bombs = check_bombs(mouse_x, mouse_y, bombs)
     if num_bombs == 0 and (mouse_x, mouse_y) not in visited:
@@ -175,6 +175,11 @@ def main():
             main()
 
         # draw_bombs(bombs, BOMB)
+        bombs_left = len(bombs) - len(flags) if len(bombs) - len(flags) >= 0 else 0
+        bombs_qtd_text = BOMB_QTD_FONT.render(f'BOMBS LEFT: {bombs_left}', 1, WHITE)
+        black_rect = pygame.Rect(0, HEIGHT + 4, bombs_qtd_text.get_width() + 40, bombs_qtd_text.get_height() - 3)
+        pygame.draw.rect(WIN, BLACK, black_rect)
+        WIN.blit(bombs_qtd_text, (0, HEIGHT + 5))
         pygame.display.update()
     
     pygame.quit()
