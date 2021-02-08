@@ -35,7 +35,7 @@ def check_bombs(mouse_x, mouse_y, bombs):
     return cont
 
 
-def check_empty_spaces(mouse_x, mouse_y, bombs, empty_spaces, visited, not_bomb):
+def check_empty_spaces(mouse_x, mouse_y, bombs, empty_spaces, visited, not_bomb, numbers):
     if (mouse_x, mouse_y) in visited or mouse_x < 0 or mouse_x > 19 or mouse_y < 0 or mouse_y > 19:
         return
     num_bombs = check_bombs(mouse_x, mouse_y, bombs)
@@ -47,6 +47,7 @@ def check_empty_spaces(mouse_x, mouse_y, bombs, empty_spaces, visited, not_bomb)
         if (mouse_x, mouse_y) not in not_bomb and (mouse_x, mouse_y) not in bombs and mouse_x >= 0 and mouse_x <= 19 and mouse_y >= 0 and mouse_y <= 19:
             not_bomb.append((mouse_x, mouse_y))
         empty_spaces.append([(mouse_x, mouse_y), num_bombs])
+        numbers.append((mouse_x, mouse_y))
         return
     
     visited.append((mouse_x, mouse_y))
@@ -55,7 +56,7 @@ def check_empty_spaces(mouse_x, mouse_y, bombs, empty_spaces, visited, not_bomb)
         for row in range(-1, 2):
             if col == 0 and row == 0 or mouse_x < 0 or mouse_x > 19 or mouse_y < 0 or mouse_y > 19:
                 continue
-            check_empty_spaces(mouse_x + col, mouse_y + row, bombs, empty_spaces, visited, not_bomb)
+            check_empty_spaces(mouse_x + col, mouse_y + row, bombs, empty_spaces, visited, not_bomb, numbers)
 
 
 def create_bombs():
@@ -150,12 +151,12 @@ def main():
                             numbers.append((mouse_x, mouse_y))
                             not_bomb.append((mouse_x, mouse_y))
                         else: # EMPTY SPACE
-                            check_empty_spaces(mouse_x, mouse_y, bombs, empty_spaces, visited, not_bomb)
+                            check_empty_spaces(mouse_x, mouse_y, bombs, empty_spaces, visited, not_bomb, numbers)
                             draw_empty_spaces(empty_spaces)
                             pressed.extend(empty_spaces[:])
                             empty_spaces.clear()
                 if button == (0, 0, 1):
-                    if (mouse_x, mouse_y) not in pressed:
+                    if (mouse_x, mouse_y) not in pressed and (mouse_x, mouse_y) not in numbers and (mouse_x, mouse_y) not in empty_spaces:
                         pressed.append((mouse_x, mouse_y))
                         black_square = pygame.Rect(mouse_x * SQUARE_SIZE + 2, mouse_y * SQUARE_SIZE + 2, SQUARE_SIZE - 3, SQUARE_SIZE - 3)
                         pygame.draw.rect(WIN, BLACK, black_square)
@@ -181,6 +182,7 @@ def main():
         pygame.draw.rect(WIN, BLACK, black_rect)
         WIN.blit(bombs_qtd_text, (0, HEIGHT + 5))
         pygame.display.update()
+
     
     pygame.quit()
 
