@@ -37,11 +37,13 @@ SEVEN = pygame.transform.scale(SEVEN_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
 EIGHT_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', '8.png'))
 EIGHT = pygame.transform.scale(EIGHT_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
 
-numbers_dict = {1 : ONE,
-                2 : TWO,
-                3 : THREE,
-                4 : FOUR,
-                5 : FIVE,
-                6 : SIX,
-                7 : SEVEN,
-                8 : EIGHT}
+NUMBERS_DICT = {
+    1: ONE,
+    2: TWO,
+    3: THREE,
+    4: FOUR,
+    5: FIVE,
+    6: SIX,
+    7: SEVEN,
+    8: EIGHT
+}
