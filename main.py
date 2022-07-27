@@ -1,6 +1,6 @@
 import pygame
-from Constants.constants import BOMB_QTD_FONT, WIDTH, HEIGHT, BLACK, WHITE, DARK_GREY, SQUARE_SIZE, FPS, TEXT_FONT, QTD_BOMBS
-from Assets.images import BOMB_ICON, BOMB, FLAG, EMPTY, numbers_dict
+from Constants.constants import *
+from Assets.images import *
 from random import randint
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT + 50))
@@ -88,7 +88,7 @@ def draw_bombs(bombs, image):
 
 
 def draw_number(mouse_x, mouse_y, num_bombs):
-    WIN.blit(numbers_dict[num_bombs], (mouse_x * SQUARE_SIZE + 3, mouse_y * SQUARE_SIZE + 3))
+    WIN.blit(NUMBERS_DICT[num_bombs], (mouse_x * SQUARE_SIZE + 3, mouse_y * SQUARE_SIZE + 3))
 
 
 def draw_empty_spaces(empty_spaces):
