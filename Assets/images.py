@@ -1,49 +1,72 @@
 import pygame
 import os
-from Constants.constants import SQUARE_SIZE
+from Constants.constants import Constants
 
-BOMB_ICON = pygame.image.load(os.path.join('Assets', 'PNGs', 'bomb_icon.png'))
+class Images:
 
-BOMB_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', 'bomb.png'))
-BOMB = pygame.transform.scale(BOMB_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    @staticmethod
+    def load_img(filename):
+        return pygame.image.load(
+            os.path.join('Assets', 'PNGs', filename)
+        )
 
-FLAG_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', 'flag.png'))
-FLAG = pygame.transform.scale(FLAG_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    @staticmethod
+    def rescale(image):
+        rescaled = pygame.transform.scale(
+            image,
+            (
+                Constants.SQUARE_SIZE - 5,
+                Constants.SQUARE_SIZE - 5
+            )
+        )
+        return rescaled
+    
+    BOMB_ICON = load_img('bomb_icon.png')
 
-EMPTY_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', 'square.png'))
-EMPTY = pygame.transform.scale(EMPTY_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    BOMB_IMAGE = load_img('bomb.png')
+    BOMB = rescale(BOMB_IMAGE)
 
-ONE_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', '1.png'))
-ONE = pygame.transform.scale(ONE_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    FLAG_IMAGE = load_img('flag.png')
+    FLAG = rescale(FLAG_IMAGE)
 
-TWO_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', '2.png'))
-TWO = pygame.transform.scale(TWO_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    EMPTY_IMAGE = load_img('square.png')
+    EMPTY = rescale(EMPTY_IMAGE)
 
-THREE_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', '3.png'))
-THREE = pygame.transform.scale(THREE_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    ONE_IMAGE = load_img('1.png')
+    ONE = rescale(ONE_IMAGE)
 
-FOUR_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', '4.png'))
-FOUR = pygame.transform.scale(FOUR_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    TWO_IMAGE = load_img('2.png')
+    TWO = rescale(TWO_IMAGE)
 
-FIVE_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', '5.png'))
-FIVE = pygame.transform.scale(FIVE_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    THREE_IMAGE = load_img('3.png')
+    THREE = rescale(THREE_IMAGE)
 
-SIX_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', '6.png'))
-SIX = pygame.transform.scale(SIX_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    FOUR_IMAGE = load_img('4.png')
+    FOUR = rescale(FOUR_IMAGE)
 
-SEVEN_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', '7.png'))
-SEVEN = pygame.transform.scale(SEVEN_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    FIVE_IMAGE = load_img('5.png')
+    FIVE = rescale(FIVE_IMAGE)
 
-EIGHT_IMAGE = pygame.image.load(os.path.join('Assets', 'PNGs', '8.png'))
-EIGHT = pygame.transform.scale(EIGHT_IMAGE, (SQUARE_SIZE - 5, SQUARE_SIZE - 5))
+    SIX_IMAGE = load_img('6.png')
+    SIX = rescale(SIX_IMAGE)
 
-NUMBERS_DICT = {
-    1: ONE,
-    2: TWO,
-    3: THREE,
-    4: FOUR,
-    5: FIVE,
-    6: SIX,
-    7: SEVEN,
-    8: EIGHT
-}
+    SEVEN_IMAGE = load_img('7.png')
+    SEVEN = rescale(SEVEN_IMAGE)
+
+    EIGHT_IMAGE = load_img('8.png')
+    EIGHT = rescale(EIGHT_IMAGE)
+
+    IMAGES_DICT = {
+        1: ONE,
+        2: TWO,
+        3: THREE,
+        4: FOUR,
+        5: FIVE,
+        6: SIX,
+        7: SEVEN,
+        8: EIGHT,
+        "bomb": BOMB,
+        "flag": FLAG,
+        "empty": EMPTY,
+        "icon": BOMB_ICON
+    }
