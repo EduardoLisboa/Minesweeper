@@ -8,6 +8,7 @@ pygame.display.set_caption("Minesweeper")
 pygame.display.set_icon(Images.IMAGES_DICT['icon'])
 pygame.font.init()
 
+
 def make_table():
     WIN.fill(Constants.BLACK)
     for i in range(
@@ -22,17 +23,22 @@ def make_table():
 
 
 def is_bomb(mouse_x, mouse_y, bombs):
-    if (mouse_x, mouse_y) in bombs:
-        return True
-    else:
-        return False
+    return (mouse_x, mouse_y) in bombs
 
 
-def check_bombs(mouse_x, mouse_y, bombs):
+def in_center_cell(col, row):
+    return col == 0 and row == 0
+
+
+def mouse_in_bounds(mouse_x, mouse_y):
+    return mouse_x >= 0 and mouse_x <= 19 and mouse_y >= 0 and mouse_y <= 19
+
+
+def count_bombs(mouse_x, mouse_y, bombs):
     cont = 0
     for col in range(-1, 2):
         for row in range(-1, 2):
-            if col == 0 and row == 0 or mouse_x < 0 or mouse_x > 19 or mouse_y < 0 or mouse_y > 19:
+            if in_center_cell(col, row) or not mouse_in_bounds(mouse_x, mouse_y):
                 continue
             if (mouse_x + col, mouse_y + row) in bombs:
                 cont += 1
@@ -43,7 +49,7 @@ def check_bombs(mouse_x, mouse_y, bombs):
 def check_empty_spaces(mouse_x, mouse_y, bombs, empty_spaces, visited, not_bomb, numbers):
     if (mouse_x, mouse_y) in visited or mouse_x < 0 or mouse_x > 19 or mouse_y < 0 or mouse_y > 19:
         return
-    num_bombs = check_bombs(mouse_x, mouse_y, bombs)
+    num_bombs = count_bombs(mouse_x, mouse_y, bombs)
     if num_bombs == 0 and (mouse_x, mouse_y) not in visited:
         if (mouse_x, mouse_y) not in not_bomb and (mouse_x, mouse_y) not in bombs and mouse_x >= 0 and mouse_x <= 19 and mouse_y >= 0 and mouse_y <= 19:
             not_bomb.append((mouse_x, mouse_y))
@@ -185,7 +191,7 @@ def main():
                         pygame.time.delay(3000)
                         main()
                     else:
-                        num_bombs = check_bombs(mouse_x, mouse_y, bombs)
+                        num_bombs = count_bombs(mouse_x, mouse_y, bombs)
                         if num_bombs > 0:
                             draw_number(mouse_x, mouse_y, num_bombs)
                             numbers.append((mouse_x, mouse_y))
