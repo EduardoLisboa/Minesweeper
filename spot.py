@@ -14,6 +14,7 @@ class Spot:
         self.is_number = False
         self.is_empty = False
         self.is_flagged = False
+        self.clicked = False
         self.neighbors = []
 
     def get_pos(self):

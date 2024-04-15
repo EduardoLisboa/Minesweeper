@@ -163,7 +163,8 @@ def create_bombs(board):
 def draw_board(board):
     for row in board:
         for spot in row:
-            spot.draw(WIN)
+            if spot.clicked:
+                spot.draw(WIN)
     # pygame.display.update()
 
 
