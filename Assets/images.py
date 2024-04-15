@@ -15,8 +15,8 @@ class Images:
         rescaled = pygame.transform.scale(
             image,
             (
-                Constants.SQUARE_SIZE - 5,
-                Constants.SQUARE_SIZE - 5
+                Constants.SQUARE_SIZE - 4,
+                Constants.SQUARE_SIZE - 4
             )
         )
         return rescaled
