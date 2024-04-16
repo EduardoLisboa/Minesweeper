@@ -157,10 +157,12 @@ def all_bombs_flagged(board):
 
 
 def handle_click(click, mouse_x, mouse_y, board):
+    # Left click
     if click[0]:
         bomb = board[mouse_x][mouse_y].click()
         if bomb:
             handle_end_game(board, win=False)
+    # Right click
     if click[2]:
         board[mouse_x][mouse_y].switch_flag()
 
