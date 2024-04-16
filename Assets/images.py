@@ -57,6 +57,7 @@ class Images:
     EIGHT = rescale(EIGHT_IMAGE)
 
     IMAGES_DICT = {
+        0: EMPTY,
         1: ONE,
         2: TWO,
         3: THREE,
@@ -67,6 +68,5 @@ class Images:
         8: EIGHT,
         "bomb": BOMB,
         "flag": FLAG,
-        "empty": EMPTY,
         "icon": BOMB_ICON
     }

@@ -147,6 +147,7 @@ def update_neighbors(board):
     for row in board:
         for spot in row:
             spot.update_neighbors(board)
+            spot.calc_number()
 
 
 def create_bombs(board):
@@ -160,12 +161,13 @@ def create_bombs(board):
         board[col][row].image = Images.IMAGES_DICT['bomb']
 
 
-def draw_board(board):
+def draw_board(board, reveal_bombs=False):
     for row in board:
         for spot in row:
-            if spot.clicked:
+            if spot.clicked or spot.is_flagged:
                 spot.draw(WIN)
-    # pygame.display.update()
+            if reveal_bombs and spot.is_bomb:
+                spot.draw(WIN)
 
 
 def print_text(text):
@@ -184,6 +186,12 @@ def print_text(text):
             Constants.HEIGHT // 2 - draw_text.get_height() // 2
         )
     )
+
+
+def parse_mouse_pos(pos):
+    mouse_x = pos[0] // Constants.SQUARE_SIZE
+    mouse_y = pos[1] // Constants.SQUARE_SIZE
+    return mouse_x, mouse_y
 
 
 def main():
@@ -215,7 +223,24 @@ def main():
                 run = False
             
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
+                pos = pygame.mouse.get_pos()
+                mouse_x, mouse_y = parse_mouse_pos(pos)
+
+                # Left mouse click
+                if pygame.mouse.get_pressed()[0]:
+                    bomb = board[mouse_x][mouse_y].click()
+                    draw_board(board)
+                    if bomb:
+                        draw_board(board, reveal_bombs=True)
+                        print_text('YOU LOSE!')
+                        pygame.display.update()
+                        pygame.time.delay(3000)
+                        main()
+                # Right mouse click
+                if pygame.mouse.get_pressed()[2]:
+                    board[mouse_x][mouse_y].flag()
+                    print(board[mouse_x][mouse_y].clicked)
+                    draw_board(board)
             
                 # pos = pygame.mouse.get_pos()
                 # mouse_x = pos[0] // Constants.SQUARE_SIZE
