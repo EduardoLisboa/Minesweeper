@@ -56,12 +56,10 @@ class Spot:
                     neighbor.click()
             return False
     
-    def flag(self) -> None:
+    def switch_flag(self) -> None:
         if not self.clicked:
             self.is_flagged = not self.is_flagged
             if self.is_flagged:
-                print('Flagged')
                 self.image = Images.IMAGES_DICT['flag']
             else:
-                print('Deflagged')
                 self.image = Images.IMAGES_DICT[0]

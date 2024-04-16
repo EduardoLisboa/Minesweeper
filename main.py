@@ -162,6 +162,7 @@ def create_bombs(board):
 
 
 def draw_board(board, reveal_bombs=False):
+    draw_grid()
     for row in board:
         for spot in row:
             if spot.clicked or spot.is_flagged:
@@ -191,7 +192,15 @@ def print_text(text):
 def parse_mouse_pos(pos):
     mouse_x = pos[0] // Constants.SQUARE_SIZE
     mouse_y = pos[1] // Constants.SQUARE_SIZE
+    if mouse_x > 19:
+        mouse_x = 19
+    if mouse_y > 19:
+        mouse_y = 19
     return mouse_x, mouse_y
+
+
+def in_bounds(pos):
+    return 0 <= pos[0] < Constants.WIDTH and 0 <= pos[1] < Constants.HEIGHT
 
 
 def main():
@@ -238,8 +247,7 @@ def main():
                         main()
                 # Right mouse click
                 if pygame.mouse.get_pressed()[2]:
-                    board[mouse_x][mouse_y].flag()
-                    print(board[mouse_x][mouse_y].clicked)
+                    board[mouse_x][mouse_y].switch_flag()
                     draw_board(board)
             
                 # pos = pygame.mouse.get_pos()
