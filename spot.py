@@ -19,8 +19,8 @@ class Spot:
     def get_pos(self) -> tuple[int, int]:
         return self.row, self.col
 
-    def draw(self, win: pygame.Surface) -> None:
-        win.blit(
+    def draw(self, window: pygame.Surface) -> None:
+        window.blit(
             self.image,
             (
                 self.x + 3,

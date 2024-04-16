@@ -11,16 +11,7 @@ pygame.display.set_icon(Images.IMAGES_DICT['icon'])
 pygame.font.init()
 
 
-def create_board():
-    grid = []
-    for row in range(0, 20):
-        grid.append([])
-        for col in range(0, 20):
-            grid[row].append(Spot(row, col))
-    return grid
-
-
-def parse_mouse_pos(pos):
+def parse_mouse_pos(pos: tuple[int, int]) -> tuple[int, int]:
     mouse_x = pos[0] // Constants.SQUARE_SIZE
     mouse_y = pos[1] // Constants.SQUARE_SIZE
     if mouse_x > 19:
@@ -30,11 +21,7 @@ def parse_mouse_pos(pos):
     return mouse_x, mouse_y
 
 
-def in_bounds(pos):
-    return 0 <= pos[0] < Constants.WIDTH and 0 <= pos[1] < Constants.HEIGHT
-
-
-def handle_end_game(board, win=False):
+def handle_end_game(board: Board, win: bool=False) -> None:
     board.draw_board(WIN, reveal_bombs=True)
     if win:
         board.print_text(WIN, 'YOU WIN!')
@@ -43,20 +30,21 @@ def handle_end_game(board, win=False):
     pygame.display.update()
     pygame.time.delay(3000)
     main()
+    exit()
 
 
-def handle_click(click, mouse_x, mouse_y, board):
+def handle_click(click: tuple[bool, bool, bool], mouse_x: int, mouse_y: int, board: Board) -> None:
     # Left click
     if click[0]:
-        bomb = board.board[mouse_x][mouse_y].click()
+        bomb = board.game_board[mouse_x][mouse_y].click()
         if bomb:
             handle_end_game(board, win=False)
     # Right click
     if click[2]:
-        board.board[mouse_x][mouse_y].switch_flag()
+        board.game_board[mouse_x][mouse_y].switch_flag()
 
 
-def main():
+def main() -> None:
     run = True
 
     board = Board(WIN)

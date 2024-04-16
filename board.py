@@ -7,14 +7,14 @@ from random import randint
 
 class Board:
 
-    def __init__(self, win) -> None:
+    def __init__(self, window: pygame.Surface) -> None:
         self.game_board = self.create_board()
-        self.start_game(win)
+        self.start_game(window)
     
-    def start_game(self, win):
+    def start_game(self, window: pygame.Surface) -> None:
         self.create_bombs()
         self.update_neighbors()
-        self.draw_board(win)
+        self.draw_board(window)
 
     @staticmethod
     def create_board() -> list[list[Spot]]:
@@ -41,8 +41,8 @@ class Board:
                 spot.update_neighbors(self.game_board)
                 spot.calc_number()
 
-    def draw_grid(self, win):
-        win.fill(Constants.BLACK)
+    def draw_grid(self, window: pygame.Surface):
+        window.fill(Constants.BLACK)
         for i in range(
             0,
             Constants.WIDTH + Constants.SQUARE_SIZE,
@@ -50,18 +50,18 @@ class Board:
         ):
             vertical = pygame.Rect(i, 0, 2, Constants.HEIGHT)
             horizontal = pygame.Rect(0, i, Constants.WIDTH, 2)
-            pygame.draw.rect(win, Constants.DARK_GREY, vertical)
-            pygame.draw.rect(win, Constants.DARK_GREY, horizontal)
+            pygame.draw.rect(window, Constants.DARK_GREY, vertical)
+            pygame.draw.rect(window, Constants.DARK_GREY, horizontal)
 
-    def draw_board(self, win, reveal_bombs=False):
-        self.draw_grid(win)
+    def draw_board(self, window: pygame.Surface, reveal_bombs: bool=False) -> None:
+        self.draw_grid(window)
         for row in self.game_board:
             for spot in row:
                 if spot.clicked or spot.is_flagged:
-                    spot.draw(win)
+                    spot.draw(window)
                 if reveal_bombs and spot.is_bomb:
                     spot.image = Images.IMAGES_DICT['bomb']
-                    spot.draw(win)
+                    spot.draw(window)
 
     def all_bombs_flagged(self) -> bool:
         bombs_flagged = 0
@@ -87,7 +87,7 @@ class Board:
         bombs_diff = Constants.QTD_BOMBS - bombs_flagged
         return bombs_diff if bombs_diff >= 0 else 0
 
-    def handle_bombs_left(self, window) -> None:
+    def handle_bombs_left(self, window: pygame.Surface) -> None:
         bombs_left = self.count_bombs_left()
         bombs_qtd_text = Constants.BOMB_QTD_FONT.render(
             f'BOMBS LEFT: {bombs_left}',
@@ -104,7 +104,7 @@ class Board:
         window.blit(bombs_qtd_text, (0, Constants.HEIGHT + 5))
     
     @staticmethod
-    def print_text(window, text):
+    def print_text(window: pygame.Surface, text: str) -> None:
         draw_text = Constants.TEXT_FONT.render(text, 1, Constants.WHITE)
         black_rect = pygame.Rect(
             0,

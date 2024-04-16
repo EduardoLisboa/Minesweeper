@@ -5,13 +5,13 @@ from Constants.constants import Constants
 class Images:
 
     @staticmethod
-    def load_img(filename):
+    def load_img(filename: str) -> pygame.Surface:
         return pygame.image.load(
             os.path.join('Assets', 'PNGs', filename)
         )
 
     @staticmethod
-    def rescale(image):
+    def rescale(image: pygame.Surface) -> pygame.Surface:
         rescaled = pygame.transform.scale(
             image,
             (
