@@ -8,6 +8,7 @@ class Constants:
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
     DARK_GREY = (70, 70, 70)
-    SQUARE_SIZE = WIDTH // 20
+    GRID_SIZE = 20
+    SQUARE_SIZE = WIDTH // GRID_SIZE
     QTD_BOMBS = 60
     FPS = 60
