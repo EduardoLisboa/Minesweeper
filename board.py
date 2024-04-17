@@ -19,19 +19,19 @@ class Board:
     @staticmethod
     def create_board() -> list[list[Spot]]:
         board = []
-        for row in range(0, 20):
+        for row in range(0, Constants.GRID_SIZE):
             board.append([])
-            for col in range(0, 20):
+            for col in range(0, Constants.GRID_SIZE):
                 board[row].append(Spot(row, col))
         return board
     
     def create_bombs(self) -> None:
         for _ in range(0, Constants.QTD_BOMBS):
-            col = randint(0, 19)
-            row = randint(0, 19)
+            col = randint(0, Constants.GRID_SIZE - 1)
+            row = randint(0, Constants.GRID_SIZE - 1)
             while self.game_board[col][row].is_bomb:
-                col = randint(0, 19)
-                row = randint(0, 19)
+                col = randint(0, Constants.GRID_SIZE - 1)
+                row = randint(0, Constants.GRID_SIZE - 1)
             self.game_board[col][row].is_bomb = True
             self.game_board[col][row].image = Images.IMAGES_DICT['bomb']
 
