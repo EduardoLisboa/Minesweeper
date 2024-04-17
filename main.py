@@ -2,6 +2,7 @@ import pygame
 from Constants.constants import Constants
 from Assets.images import Images
 from board import Board
+from button import Button
 
 WIN = pygame.display.set_mode((Constants.WIDTH, Constants.HEIGHT + 50))
 pygame.display.set_caption("Minesweeper")
@@ -83,24 +84,59 @@ def menu_texts(main_text: str, subtext=None) -> None:
         WIN.blit(text, text_rect)
 
 
+def create_button(
+        button_text: str,
+        x_y_displacement: tuple[int, int],
+        hovering_color: tuple[int, int, int]
+    ) -> Button:
+    return Button(
+        image=None,
+        pos=(
+            Constants.WIDTH // 2 + x_y_displacement[0],
+            Constants.HEIGHT // 2 + x_y_displacement[1]
+        ),
+        text_input=button_text,
+        font=Constants.YES_NO_FONT,
+        base_color=Constants.WHITE,
+        hovering_color=hovering_color
+    )
+
+
+def handle_buttons(buttons: tuple[Button, Button], mouse_pos: tuple[int, int]) -> bool:
+    if buttons[0].check_for_input(mouse_pos):
+        play_game()
+        return False
+    if buttons[1].check_for_input(mouse_pos):
+        return False
+
+
 def main_menu() -> None:
     run = True
     clock = pygame.time.Clock()
 
     while run:
+        clock.tick(Constants.FPS)
+        
+        BUTTONS = (
+            create_button("PLAY", (-100, 100), Constants.LIGHT_GREEN),
+            create_button("QUIT", (100, 100), Constants.LIGHT_RED)
+        )
 
-        menu_texts("Minesweeper", "Press any key to play")
+        menu_texts("Minesweeper")
+
+        mouse_pos = pygame.mouse.get_pos()
+
+        for button in BUTTONS:
+            button.change_color(mouse_pos)
+            button.update(WIN)
 
         pygame.display.update()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.KEYDOWN:
-                play_game()
-                run = False
-
-        clock.tick(Constants.FPS)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                run = handle_buttons(BUTTONS, mouse_pos)
 
     pygame.quit()
 
@@ -112,17 +148,27 @@ def play_again():
     while run:
         clock.tick(Constants.FPS)
 
-        menu_texts("Play again?", "Press any key to play again")
+        BUTTONS = (
+            create_button("YES", (-100, 100), Constants.LIGHT_GREEN),
+            create_button("NO", (100, 100), Constants.LIGHT_RED)
+        )
 
-        pygame.display.update()
+        menu_texts("Play again?")
+
+        mouse_pos = pygame.mouse.get_pos()
+
+        for button in BUTTONS:
+            button.change_color(mouse_pos)
+            button.update(WIN)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.KEYDOWN:
-                play_game()
-                run = False
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                run = handle_buttons(BUTTONS, mouse_pos)
+
+        pygame.display.update()
         
 
     pygame.quit()

@@ -11,14 +11,23 @@ class Images:
         )
 
     @staticmethod
-    def rescale(image: pygame.Surface) -> pygame.Surface:
-        rescaled = pygame.transform.scale(
-            image,
-            (
-                Constants.SQUARE_SIZE - 4,
-                Constants.SQUARE_SIZE - 4
+    def rescale(image: pygame.Surface, scale: tuple|None= None) -> pygame.Surface:
+        if scale:
+            rescaled = pygame.transform.scale(
+                image,
+                (
+                    scale[0],
+                    scale[1]
+                )
             )
-        )
+        else:
+            rescaled = pygame.transform.scale(
+                image,
+                (
+                    Constants.SQUARE_SIZE - 4,
+                    Constants.SQUARE_SIZE - 4
+                )
+            )
         return rescaled
     
     BOMB_ICON = load_img('bomb_icon.png')
@@ -56,6 +65,13 @@ class Images:
     EIGHT_IMAGE = load_img('8.png')
     EIGHT = rescale(EIGHT_IMAGE)
 
+    YES_IMAGE = load_img('yes.png')
+    YES = rescale(YES_IMAGE, (80, 50))
+
+    NO_IMAGE = load_img('no.png')
+    NO = rescale(NO_IMAGE, (80, 50))
+
+
     IMAGES_DICT = {
         0: EMPTY,
         1: ONE,
@@ -68,5 +84,7 @@ class Images:
         8: EIGHT,
         "bomb": BOMB,
         "flag": FLAG,
-        "icon": BOMB_ICON
+        "icon": BOMB_ICON,
+        "yes": YES,
+        "no": NO
     }
