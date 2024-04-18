@@ -108,10 +108,10 @@ def handle_difficulty_buttons(buttons: tuple[Button, Button, Button], mouse_pos:
         Constants.QTD_BOMBS = 40
     # Medium
     if buttons[1].check_for_input(mouse_pos):
-        Constants.QTD_BOMBS = 70
+        Constants.QTD_BOMBS = 80
     # Hard
     if buttons[2].check_for_input(mouse_pos):
-        Constants.QTD_BOMBS = 99
+        Constants.QTD_BOMBS = 120
 
     play_game()
     return False
