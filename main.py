@@ -102,9 +102,55 @@ def create_button(
     )
 
 
+def handle_difficulty_buttons(buttons: tuple[Button, Button, Button], mouse_pos: tuple[int, int]) -> bool:
+    # Easy
+    if buttons[0].check_for_input(mouse_pos):
+        Constants.QTD_BOMBS = 40
+    # Medium
+    if buttons[1].check_for_input(mouse_pos):
+        Constants.QTD_BOMBS = 70
+    # Hard
+    if buttons[2].check_for_input(mouse_pos):
+        Constants.QTD_BOMBS = 99
+
+    play_game()
+    return False
+
+
+def difficulty_selection():
+    run = True
+    clock = pygame.time.Clock()
+    
+    WIN.fill(Constants.BLACK)
+
+    while run:
+        clock.tick(Constants.FPS)
+
+        BUTTONS = (
+            create_button('EASY', (0, -150), Constants.LIGHT_GREEN),
+            create_button('MEDIUM', (0, 0), Constants.LIGHT_YELLOW),
+            create_button('HARD', (0, 150), Constants.LIGHT_RED)
+        )
+
+        mouse_pos = pygame.mouse.get_pos()
+
+        for button in BUTTONS:
+            button.change_color(mouse_pos)
+            button.update(WIN)
+
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                run = handle_difficulty_buttons(BUTTONS, mouse_pos)
+
+
 def handle_buttons(buttons: tuple[Button, Button], mouse_pos: tuple[int, int]) -> bool:
     if buttons[0].check_for_input(mouse_pos):
-        play_game()
+        # play_game()
+        difficulty_selection()
         return False
     if buttons[1].check_for_input(mouse_pos):
         return False
