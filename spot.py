@@ -16,9 +16,6 @@ class Spot:
         self.clicked = False
         self.neighbors = []
 
-    def get_pos(self) -> tuple[int, int]:
-        return self.row, self.col
-
     def draw(self, window: pygame.Surface) -> None:
         window.blit(
             self.image,
