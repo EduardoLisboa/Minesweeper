@@ -3,6 +3,7 @@ from Constants.constants import Constants
 from Assets.images import Images
 from board import Board
 from button import Button
+from slider import Slider
 
 WIN = pygame.display.set_mode((Constants.WIDTH, Constants.HEIGHT + 50))
 pygame.display.set_caption("Minesweeper")
@@ -101,53 +102,62 @@ def create_button(
         hovering_color=hovering_color
     )
 
+def start_text(bomb_qtd: int) -> None:
+    title_text = Constants.TITLE_FONT.render('Difficulty', True, Constants.WHITE)
+    title_rect = title_text.get_rect(center=(Constants.WIDTH // 2, 100))
+    WIN.blit(title_text, title_rect)
 
-def handle_difficulty_buttons(buttons: tuple[Button, Button, Button], mouse_pos: tuple[int, int]) -> bool:
-    # Easy
-    if buttons[0].check_for_input(mouse_pos):
-        Constants.QTD_BOMBS = 40
-    # Medium
-    if buttons[1].check_for_input(mouse_pos):
-        Constants.QTD_BOMBS = 80
-    # Hard
-    if buttons[2].check_for_input(mouse_pos):
-        Constants.QTD_BOMBS = 120
+    slider_label = Constants.BOMB_QTD_FONT.render('Number of Bombs:', True, Constants.WHITE)
+    label_rect = slider_label.get_rect(center=(Constants.WIDTH // 2, Constants.HEIGHT // 2 - 100))
+    WIN.blit(slider_label, label_rect)
 
-    play_game()
-    return False
+    value_text = Constants.BOMB_QTD_FONT.render(str(bomb_qtd), True, Constants.LIGHT_YELLOW)
+    value_rect = value_text.get_rect(center=(Constants.WIDTH // 2, Constants.HEIGHT // 2 + 20))
+    WIN.blit(value_text, value_rect)
 
 
 def difficulty_selection():
     run = True
     clock = pygame.time.Clock()
-    
-    WIN.fill(Constants.BLACK)
+
+    slider = Slider(
+        x=Constants.WIDTH // 2 - 200,
+        y=Constants.HEIGHT // 2 - 50,
+        width=400,
+        min_value=10,
+        max_value=150,
+        initial_value=60
+    )
+
+    start_button = create_button('START', (0, 150), Constants.LIGHT_GREEN)
 
     while run:
         clock.tick(Constants.FPS)
+        WIN.fill(Constants.BLACK)
 
-        BUTTONS = (
-            create_button('EASY', (0, -150), Constants.LIGHT_GREEN),
-            create_button('MEDIUM', (0, 0), Constants.LIGHT_YELLOW),
-            create_button('HARD', (0, 150), Constants.LIGHT_RED)
-        )
+        start_text(slider.get_value())
 
+        slider.draw(WIN)
+        
         mouse_pos = pygame.mouse.get_pos()
-
-        for button in BUTTONS:
-            button.change_color(mouse_pos)
-            button.update(WIN)
+        start_button.change_color(mouse_pos)
+        start_button.update(WIN)
 
         pygame.display.update()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                run = handle_difficulty_buttons(BUTTONS, mouse_pos)
+
+            slider.handle_event(event)
+            
+            if event.type == pygame.MOUSEBUTTONDOWN and start_button.check_for_input(mouse_pos):
+                Constants.QTD_BOMBS = slider.get_value()
+                play_game()
+                run = False
 
 
-def handle_buttons(buttons: tuple[Button, Button], mouse_pos: tuple[int, int]) -> bool:
+def handle_buttons(buttons: tuple[Button, Button], mouse_pos: tuple[int, int]) -> bool | None:
     if buttons[0].check_for_input(mouse_pos):
         # play_game()
         difficulty_selection()
